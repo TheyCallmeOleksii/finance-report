@@ -1,5 +1,11 @@
 {
-  "dependencies": {
-    "firebase": "^12.5.0"
+  "name": "finance-report",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npm run dev --prefix my-finance-app",
+    "build": "npm run build --prefix my-finance-app",
+    "preview": "npm run preview --prefix my-finance-app",
+    "install:app": "npm install --prefix my-finance-app"
   }
 }
