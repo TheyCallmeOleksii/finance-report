@@ -7,6 +7,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcat2ld6MtW6PJhkAPNib96lhJ_tJXtyI",
@@ -19,14 +20,25 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+/* 🔐 AUTH */
 export const auth = getAuth(app);
-export const provider = new GoogleAuthProvider();
 
-// Функція входу через Google
-export const loginWithGoogle = () => signInWithPopup(auth, provider);
+/* 🗄️ FIRESTORE */
+export const db = getFirestore(app);
 
-// Функція виходу
-export const logout = () => signOut(auth);
+/* 🔑 LOGIN */
+export const loginWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  await signInWithPopup(auth, provider);
+};
 
-// Відслідковування користувача
-export const watchUser = (callback) => onAuthStateChanged(auth, callback);
+/* 🚪 LOGOUT */
+export const logout = async () => {
+  await signOut(auth);
+};
+
+/* 👀 WATCH USER */
+export const watchUser = (callback) => {
+  return onAuthStateChanged(auth, callback);
+};
