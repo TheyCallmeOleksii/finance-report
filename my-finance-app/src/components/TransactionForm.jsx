@@ -9,33 +9,42 @@ export default function TransactionForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!amount || !description) return;
+    if (!amount || !description) {
+      alert("Заповни всі поля");
+      return;
+    }
 
-    await addDoc(collection(db, "transactions"), {
-      uid: auth.currentUser.uid,
-      amount: Number(amount),
-      description,
-      createdAt: serverTimestamp(),
-    });
+    try {
+      await addDoc(collection(db, "transactions"), {
+        uid: auth.currentUser.uid,
+        amount: Number(amount),
+        description,
+        createdAt: serverTimestamp(),
+      });
 
-    setAmount("");
-    setDescription("");
+      setAmount("");
+      setDescription("");
+    } catch (error) {
+      console.error("Помилка додавання:", error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: "1rem" }}>
+    <form onSubmit={handleSubmit}>
       <input
         type="number"
         placeholder="Сума"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />
+
       <input
         type="text"
         placeholder="Опис"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
+
       <button type="submit">Додати</button>
     </form>
   );
